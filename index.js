@@ -1,22 +1,35 @@
-//* Create the AlienSpaceship class
-class AlienSpaceship {
-  constructor(spaceshipName) {
-    this.spaceshipName = spaceshipName;
-    this.hull = Math.floor(Math.random() * 4) + 3;
-    this.firepower = Math.floor(Math.random() * 3) + 2;
-    this.accuracy = (Math.floor(Math.random() * 3) + 6) / 10;
+//* Create the Spaceship class
+class Spaceship {
+  constructor(spaceshipName, isAlien) {
+    // Create alien spaceships
+    if (isAlien) {
+        this.spaceshipName = spaceshipName;
+        this.hull = Math.floor(Math.random() * 4) + 3;
+        this.firepower = Math.floor(Math.random() * 3) + 2;
+        this.accuracy = (Math.floor(Math.random() * 3) + 6) / 10;
+    // Create player spaceship
+    } else {
+        this.spaceshipName = spaceshipName;
+        this.hull = 20;
+        this.firepower = 5;
+        this.accuracy = 0.7;
+    }
   }
 
-  attack(spaceship) {}
+  attack(enemyShip) {
+    
+  }
+
 }
 
-// Create 6 alien spaceship objects
-const alienShip1 = new AlienSpaceship("Alien Spaceship 1");
-const alienShip2 = new AlienSpaceship("Alien Spaceship 2");
-const alienShip3 = new AlienSpaceship("Alien Spaceship 3");
-const alienShip4 = new AlienSpaceship("Alien Spaceship 4");
-const alienShip5 = new AlienSpaceship("Alien Spaceship 5");
-const alienShip6 = new AlienSpaceship("Alien Spaceship 6");
+//* Create 6 alien spaceship objects and a player object
+const alienShip1 = new Spaceship("Alien Spaceship 1", true);
+const alienShip2 = new Spaceship("Alien Spaceship 2", true);
+const alienShip3 = new Spaceship("Alien Spaceship 3", true);
+const alienShip4 = new Spaceship("Alien Spaceship 4", true);
+const alienShip5 = new Spaceship("Alien Spaceship 5", true);
+const alienShip6 = new Spaceship("Alien Spaceship 6", true);
+const ussAssembly = new Spaceship("USS Assembly", false)
 
 console.log(alienShip1);
 console.log(alienShip2);
@@ -24,21 +37,6 @@ console.log(alienShip3);
 console.log(alienShip4);
 console.log(alienShip5);
 console.log(alienShip6);
-
-//* Create the player spaceship object
-const ussAssembly = {
-  spaceshipName: "USS Assembly",
-  hull: 20,
-  firepower: 5,
-  accuracy: 0.7,
-
-  attack: function (spaceship) {
-    if (Math.random() < spaceship.accuracy) {
-      console.log("You have been hit!");
-    }
-  },
-};
-
 console.log(ussAssembly);
 
 //* Playing the game! 
