@@ -54,7 +54,7 @@ class Spaceship {
 
   retreat() {
     gameInPlay = false;
-    console.log("You have left the game.");
+    console.log("%cYou have left the game. The game is over.", "color: green;");
   }
 }
 
@@ -116,10 +116,13 @@ function playGame() {
 
   if (alienFleet.length !== 0 && ussAssembly.hull > 0) {
     battleShip(alienFleet[0]);
+  } else if (alienFleet.length === 0) {
+    console.log(`%cThe game is over. You have won!`, `color: green;`);
+    gameInPlay = false;
   } else {
-    console.log(`%cThe game is over.`, `color: green;`);
+    console.log(`%cThe game is over. Aliens have won!`, `color: green;`);
+    gameInPlay = false;
   }
-  
   
   // gameScreen.removeChild(startButton);
   // gameText.textContent =
@@ -131,12 +134,17 @@ function playGame() {
 function battleShip(enemyShip) {
   // gameScreen.removeChild(beginBattle);
   // gameText = "It's your move! Shoot your lasers, quick!";
+  let continueGame;
   ussAssembly.attack(enemyShip);
 
   if (enemyShip.hull <= 0) {
     console.log("You have defeated this spaceship!");
     alienFleet.shift();
     console.log(alienFleet);
+    continueGame = confirm("Do you want to continue?");
+    if (!continueGame) {
+      ussAssembly.retreat();
+    }
   } else {
     console.log("Prepare for a counter attack!");
     enemyShip.attack(ussAssembly);
