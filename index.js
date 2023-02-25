@@ -53,38 +53,15 @@ class Spaceship {
   }
 
   retreat() {
-    gameInPlay = false;
     console.log("%cYou have left the game. The game is over.", "color: green;");
+    gameScreen.appendChild(newGame);
   }
 }
 
-//* Create 6 alien spaceship objects (add to alienFleet) and a player object
-//* For now - we will focus on just one
-
-const alienShip1 = new Spaceship("Alien Spaceship 1", true);
-const alienShip2 = new Spaceship("Alien Spaceship 2", true);
-const alienShip3 = new Spaceship("Alien Spaceship 3", true);
-const alienShip4 = new Spaceship("Alien Spaceship 4", true);
-const alienShip5 = new Spaceship("Alien Spaceship 5", true);
-const alienShip6 = new Spaceship("Alien Spaceship 6", true);
-const ussAssembly = new Spaceship("USS Assembly", false);
-
-const alienFleet = [
-  alienShip1,
-  alienShip2,
-  alienShip3,
-  alienShip4,
-  alienShip5,
-  alienShip6,
-];
-
 //* gameInPlay status and User Interface
 
-// Initialize a gameInPlay variable to false
-let gameInPlay = false;
-
-// // Designate the container div as the game screen
-// const gameScreen = document.querySelector("#container");
+// Designate the container div as the game screen
+const gameScreen = document.querySelector("#container");
 
 // // Create a p element to contain game play text
 // let gameText = document.createElement("p");
@@ -92,6 +69,11 @@ let gameInPlay = false;
 // Designate the #start-button to start the game when clicked
 const startButton = document.querySelector("#start-button");
 startButton.addEventListener("click", playGame);
+
+// Start a new game button
+const newGame = document.createElement("button");
+newGame.textContent = "Start a new game";
+newGame.addEventListener("click", gameOver);
 
 // // Create a button to move forward in the game
 // const beginBattle = document.createElement("button");
@@ -112,41 +94,53 @@ startButton.addEventListener("click", playGame);
 //* Start the game!
 
 function playGame() {
-  gameInPlay = true;
+  const alienShip1 = new Spaceship("Alien Spaceship 1", true);
+  const alienShip2 = new Spaceship("Alien Spaceship 2", true);
+  const alienShip3 = new Spaceship("Alien Spaceship 3", true);
+  const alienShip4 = new Spaceship("Alien Spaceship 4", true);
+  const alienShip5 = new Spaceship("Alien Spaceship 5", true);
+  const alienShip6 = new Spaceship("Alien Spaceship 6", true);
+  const ussAssembly = new Spaceship("USS Assembly", false);
+
+  const alienFleet = [
+    alienShip1,
+    alienShip2,
+    alienShip3,
+    alienShip4,
+    alienShip5,
+    alienShip6,
+  ];
 
   if (alienFleet.length !== 0 && ussAssembly.hull > 0) {
-    battleShip(alienFleet[0]);
+    battle(ussAssembly, alienFleet[0]);
   } else if (alienFleet.length === 0) {
     console.log(`%cThe game is over. You have won!`, `color: green;`);
-    gameInPlay = false;
+    gameScreen.appendChild(newGame);
   } else {
     console.log(`%cThe game is over. Aliens have won!`, `color: green;`);
-    gameInPlay = false;
+    gameScreen.appendChild(newGame);
   }
-  
-  // gameScreen.removeChild(startButton);
-  // gameText.textContent =
-  //   "Earth has been attacked by a horde of aliens! You are the captain of the USS Assembly, on a mission to destroy every last alien ship. Battle the aliens as you try to destroy them with your lasers.";
-  // gameScreen.appendChild(gameText);
-  // gameScreen.appendChild(beginBattle);
+
+  function battle(playerShip, enemyShip) {
+    let continueGame;
+    playerShip.attack(enemyShip);
+
+    if (enemyShip.hull <= 0) {
+      console.log("You have defeated this spaceship!");
+      alienFleet.shift();
+      console.log(alienFleet);
+      continueGame = confirm("Do you want to continue?");
+      if (!continueGame) {
+        playerShip.retreat();
+      }
+    } else {
+      console.log("Prepare for a counter attack!");
+      enemyShip.attack(playerShip);
+    }
+  }
 }
 
-function battleShip(enemyShip) {
-  // gameScreen.removeChild(beginBattle);
-  // gameText = "It's your move! Shoot your lasers, quick!";
-  let continueGame;
-  ussAssembly.attack(enemyShip);
-
-  if (enemyShip.hull <= 0) {
-    console.log("You have defeated this spaceship!");
-    alienFleet.shift();
-    console.log(alienFleet);
-    continueGame = confirm("Do you want to continue?");
-    if (!continueGame) {
-      ussAssembly.retreat();
-    }
-  } else {
-    console.log("Prepare for a counter attack!");
-    enemyShip.attack(ussAssembly);
-  }
+function gameOver() {
+  console.clear();
+  gameScreen.removeChild(newGame);
 }
