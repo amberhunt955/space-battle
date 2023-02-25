@@ -42,7 +42,9 @@ class Spaceship {
         "%cYou have left the game. The game is over.",
         "color: green;"
       );
+      gameText.textContent = `You have left the game. The game is over.`
       gameScreen.appendChild(newGame);
+      gameScreen.removeChild(yourMove);
     } 
   }
 }
@@ -54,7 +56,20 @@ const gameScreen = document.querySelector("#container");
 
 // Designate the #start-button to start the game when clicked
 const startButton = document.querySelector("#start-button");
-startButton.addEventListener("click", playGame);
+startButton.addEventListener("click", function() {
+  gameScreen.removeChild(startButton);
+  gameScreen.appendChild(gameText);
+  gameScreen.appendChild(yourMove);
+});
+
+// Create a paragraph element to contain game text
+const gameText = document.createElement("p");
+gameText.textContent = "Earth has been attacked by a horde of aliens! You are the captain of the USS Assembly, on a mission to destroy every last alien ship. Battle the aliens as you try to destroy them with your lasers. \nThere are six alien ships. The aliens' weakness is that they are too logical and attack one at a time: they will wait to see the outcome of a battle before deploying another alien ship. Your strength is that you have the initiative and get to attack first. However, you do not have targeting lasers and can only attack the aliens in order. After you have destroyed a ship, you have the option to make a hasty retreat.";
+
+// Create a your move button to trigger player move
+const yourMove = document.createElement("button");
+yourMove.textContent = "Your move!"
+yourMove.addEventListener("click", playGame);
 
 // Create a 'start new game' button
 const newGame = document.createElement("button");
@@ -90,9 +105,13 @@ function playGame() {
     battle(ussAssembly, alienFleet[0]);
   } else if (alienFleet.length === 0) {
     console.log(`%cThe game is over. You have won!`, `color: green;`);
+    gameText.textContent = `The game is over. You have won!`
+    gameScreen.removeChild(yourMove);
     gameScreen.appendChild(newGame);
   } else {
     console.log(`%cThe game is over. You have lost.`, `color: green;`);
+    gameText.textContent = `The game is over. You have lost.`
+    gameScreen.removeChild(yourMove);
     gameScreen.appendChild(newGame);
   }
 }
@@ -104,7 +123,6 @@ function battle(playerShip, enemyShip) {
     `%cBattling ${enemyShip.name} (hull: ${enemyShip.hull})`,
     `color:blue;`
   );
-
   
   playerShip.attack(enemyShip);
   
@@ -157,6 +175,9 @@ function determineDamage(firepower) {
 function gameOver() {
   console.clear();
   gameScreen.removeChild(newGame);
+  gameScreen.removeChild(gameText);
+  gameScreen.appendChild(startButton);
+  startButton.textContent = "Play game"
 
   alienShip1 = new Spaceship("Alien Spaceship 1", true);
   alienShip2 = new Spaceship("Alien Spaceship 2", true);
@@ -174,4 +195,6 @@ function gameOver() {
     alienShip5,
     alienShip6,
   ];
+
+  gameText.textContent = "Earth has been attacked by a horde of aliens! You are the captain of the USS Assembly, on a mission to destroy every last alien ship. Battle the aliens as you try to destroy them with your lasers. \nThere are six alien ships. The aliens' weakness is that they are too logical and attack one at a time: they will wait to see the outcome of a battle before deploying another alien ship. Your strength is that you have the initiative and get to attack first. However, you do not have targeting lasers and can only attack the aliens in order. After you have destroyed a ship, you have the option to make a hasty retreat.";
 }
