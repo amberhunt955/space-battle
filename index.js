@@ -113,14 +113,19 @@ startButton.addEventListener("click", playGame);
 
 function playGame() {
   gameInPlay = true;
-  // gameScreen.removeChild(startButton);
 
+  if (alienFleet.length !== 0 && ussAssembly.hull > 0) {
+    battleShip(alienFleet[0]);
+  } else {
+    console.log(`%cThe game is over.`, `color: green;`);
+  }
+  
+  
+  // gameScreen.removeChild(startButton);
   // gameText.textContent =
   //   "Earth has been attacked by a horde of aliens! You are the captain of the USS Assembly, on a mission to destroy every last alien ship. Battle the aliens as you try to destroy them with your lasers.";
   // gameScreen.appendChild(gameText);
   // gameScreen.appendChild(beginBattle);
-
-  battleShip(alienFleet[0]);
 }
 
 function battleShip(enemyShip) {
