@@ -91,18 +91,17 @@ newGame.addEventListener("click", gameOver);
 // alienAttack.textContent = "Prepare for counter attack...";
 // alienAttack.addEventListener("click", alienShip1.attack(ussAssembly));
 
-//* Start the game!
+//* Global variables
 
-function playGame() {
-  const alienShip1 = new Spaceship("Alien Spaceship 1", true);
-  const alienShip2 = new Spaceship("Alien Spaceship 2", true);
-  const alienShip3 = new Spaceship("Alien Spaceship 3", true);
-  const alienShip4 = new Spaceship("Alien Spaceship 4", true);
-  const alienShip5 = new Spaceship("Alien Spaceship 5", true);
-  const alienShip6 = new Spaceship("Alien Spaceship 6", true);
-  const ussAssembly = new Spaceship("USS Assembly", false);
-
-  const alienFleet = [
+  let alienShip1 = new Spaceship("Alien Spaceship 1", true);
+  let alienShip2 = new Spaceship("Alien Spaceship 2", true);
+  let alienShip3 = new Spaceship("Alien Spaceship 3", true);
+  let alienShip4 = new Spaceship("Alien Spaceship 4", true);
+  let alienShip5 = new Spaceship("Alien Spaceship 5", true);
+  let alienShip6 = new Spaceship("Alien Spaceship 6", true);
+  let ussAssembly = new Spaceship("USS Assembly", false);
+  
+  let alienFleet = [
     alienShip1,
     alienShip2,
     alienShip3,
@@ -110,7 +109,11 @@ function playGame() {
     alienShip5,
     alienShip6,
   ];
+  
 
+//* Start the game!
+
+function playGame() {
   if (alienFleet.length !== 0 && ussAssembly.hull > 0) {
     battle(ussAssembly, alienFleet[0]);
   } else if (alienFleet.length === 0) {
@@ -123,6 +126,10 @@ function playGame() {
 
   function battle(playerShip, enemyShip) {
     let continueGame;
+    console.log(
+      `%cBattling ${enemyShip.name} (hull: ${enemyShip.hull})`,
+      `color:blue;`
+    );
     playerShip.attack(enemyShip);
 
     if (enemyShip.hull <= 0) {
@@ -138,9 +145,28 @@ function playGame() {
       enemyShip.attack(playerShip);
     }
   }
+
+  
 }
 
 function gameOver() {
   console.clear();
   gameScreen.removeChild(newGame);
+
+  alienShip1 = new Spaceship("Alien Spaceship 1", true);
+  alienShip2 = new Spaceship("Alien Spaceship 2", true);
+  alienShip3 = new Spaceship("Alien Spaceship 3", true);
+  alienShip4 = new Spaceship("Alien Spaceship 4", true);
+  alienShip5 = new Spaceship("Alien Spaceship 5", true);
+  alienShip6 = new Spaceship("Alien Spaceship 6", true);
+  ussAssembly = new Spaceship("USS Assembly", false);
+
+  alienFleet = [
+    alienShip1,
+    alienShip2,
+    alienShip3,
+    alienShip4,
+    alienShip5,
+    alienShip6,
+  ];
 }
